@@ -241,13 +241,15 @@ export function MetadataList({
     return styles.gridMulti;
   };
 
-  // For numeric columns > 1 with side labels, use inline style for dynamic grid
+  // Stacked items render one grid cell each; side labels render two (label + value).
   const dynamicGridStyle =
-    !isHorizontal &&
-    labelConfig.position === 'start' &&
-    typeof columns === 'number' &&
-    columns > 1
-      ? {gridTemplateColumns: `repeat(${columns}, auto 1fr)`}
+    !isHorizontal && typeof columns === 'number' && columns > 1
+      ? {
+          gridTemplateColumns:
+            labelConfig.position === 'top'
+              ? `repeat(${columns}, 1fr)`
+              : `repeat(${columns}, auto 1fr)`,
+        }
       : !isHorizontal &&
           labelConfig.position === 'start' &&
           labelConfig.width != null
