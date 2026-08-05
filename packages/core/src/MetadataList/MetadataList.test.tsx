@@ -123,6 +123,20 @@ describe('MetadataList', () => {
     expect(screen.getByText('A')).toBeInTheDocument();
     expect(screen.getByText('B')).toBeInTheDocument();
   });
+
+  // `columns={3}` with no `label` prop defaults labels to { position: 'top' }
+  // (stacked) — this locks in that a numeric count still applies in that case.
+  it('renders the requested number of columns with stacked labels', () => {
+    const {container} = render(
+      <MetadataList columns={3}>
+        <MetadataListItem label="A">1</MetadataListItem>
+      </MetadataList>,
+    );
+
+    expect(container.querySelector('dl')).toHaveStyle({
+      gridTemplateColumns: 'repeat(3, 1fr)',
+    });
+  });
 });
 
 describe('MetadataListItem', () => {
